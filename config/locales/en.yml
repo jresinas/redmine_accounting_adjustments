@@ -1,0 +1,16 @@
+en:
+  project_module_accounting_adjustments_plugin: Accounting adjustments
+  accounting_adjustments:
+    label_accounting_adjustments: Accounting adjustments
+    year: Year
+    scheduled_incomes: Scheduled incomes
+    scheduled_expenses: Scheduled expenses
+    scheduled_mc: Scheduled MC
+    theoric_incomes: Theoric incomes
+    start_adjustment: Start adjustment
+    end_adjustment: End adjustment
+    theoric_mc: Theoric MC
+    label_totals: Totals
+    label_overwrite_adjustments: Overwrite accounting adjustments
+    label_ignore_current_year: Ignore current year
+    button_create_accounting_adjustments: Create accounting adjustments

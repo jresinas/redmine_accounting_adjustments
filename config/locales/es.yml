@@ -1,4 +1,5 @@
 es:
+  project_module_accounting_adjustments_plugin: Ajustes contables
   accounting_adjustments:
     label_accounting_adjustments: Ajustes contables
     year: Año
