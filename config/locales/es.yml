@@ -1,0 +1,15 @@
+es:
+  accounting_adjustments:
+    label_accounting_adjustments: Ajustes contables
+    year: Año
+    scheduled_incomes: Ingresos estimados
+    scheduled_expenses: Gastos estimados
+    scheduled_mc: MC estimados
+    theoric_incomes: Ingresos teóricos
+    start_adjustment: Ajuste de inicio
+    end_adjustment: Ajuste de fin
+    theoric_mc: MC teórico
+    label_totals: Totales
+    label_overwrite_adjustments: Sobreescribir ajustes contables
+    label_ignore_current_year: Ignorar año actual
+    button_create_accounting_adjustments: Crear ajustes contables

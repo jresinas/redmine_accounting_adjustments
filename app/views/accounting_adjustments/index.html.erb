@@ -1,0 +1,8 @@
+<% content_for :header_tags do %>
+  <%= javascript_include_tag "accounting_adjustment", :plugin => 'redmine_accounting_adjustment' %>
+  <%= stylesheet_link_tag "accounting_adjustment", :plugin => 'redmine_accounting_adjustment' %>  
+<% end %>
+
+<div id="accounting_adjustments_content">
+    <%= render :partial => 'show' %>
+</div>

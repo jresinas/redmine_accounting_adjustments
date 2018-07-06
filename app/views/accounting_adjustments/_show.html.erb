@@ -1,0 +1,48 @@
+<div>
+	<table id="accounting_adjustments">
+		<header>
+			<tr>
+				<th><%=l(:"accounting_adjustments.year")%></th>
+				<th><%=l(:"accounting_adjustments.scheduled_incomes")%></th>
+				<th><%=l(:"accounting_adjustments.scheduled_expenses")%></th>
+				<th><%=l(:"accounting_adjustments.scheduled_mc")%></th>
+				<th><%=l(:"accounting_adjustments.theoric_incomes")%></th>
+				<th><%=l(:"accounting_adjustments.start_adjustment")%></th>
+				<th><%=l(:"accounting_adjustments.end_adjustment")%></th>
+				<th><%=l(:"accounting_adjustments.theoric_mc")%></th>
+			</tr>
+		</header>
+		<body>
+			<% @data.each do |year, data| %>
+			<tr class="<%='total' if year == 'totals'%>">
+				<td class="year"><%=year == 'totals' ? l(:"accounting_adjustments.label_totals") : year%></th>
+				<td><%=data[:scheduled_incomes]%> €</td>
+				<td><%=data[:scheduled_expenses]%> €</td>
+				<td><%=data[:scheduled_mc]%>%</td>
+				<td><%=data[:theoric_incomes]%> €</td>
+				<td><%=data[:theoric_start_adjustment]%> €</td>
+				<td><%=data[:theoric_end_adjustment]%> €</td>
+				<td><%=data[:theoric_mc]%>%</td>
+			</tr>
+			<% end %>
+		</body>
+	</table>
+
+	<%= form_tag({:controller => :accounting_adjustments, :action => 'generate'}) do %>
+		<% @data.each do |year, data| %>
+			<%= hidden_field_tag("start_adjustments["+year.to_s+"]", data[:theoric_start_adjustment]) if year != 'totals' and data[:theoric_start_adjustment].present? %>
+			<%= hidden_field_tag("end_adjustments["+year.to_s+"]", data[:theoric_end_adjustment]) if year != 'totals' and data[:theoric_end_adjustment].present? %>
+		<% end %>
+		<div id="accounting_adjustments_options">
+			<span>
+				<%= l(:"accounting_adjustments.label_overwrite_adjustments") %>: <%= check_box_tag('overwrite_adjustments', 1, @overwrite_adjustments) %>
+			</span>
+			<span>
+				<%= l(:"accounting_adjustments.label_ignore_current_year") %>: <%= check_box_tag('ignore_current_year', 1, @ignore_current_year) %>
+			</span>
+		</div>
+		<div id="accounting_adjustments_submit">
+			<%= submit_tag l(:"accounting_adjustments.button_create_accounting_adjustments") %>
+		</div>
+	<% end %>
+</div>

@@ -1,0 +1,34 @@
+table#accounting_adjustments {
+	width: 100%;
+}
+
+table#accounting_adjustments td, table#accounting_adjustments th {
+	border: 1px solid grey;
+}
+
+div#accounting_adjustments_options {
+	margin-top: 10px;
+}
+
+div#accounting_adjustments_submit {
+	margin-top: 10px;
+}
+
+table#accounting_adjustments th{
+	text-align: center;
+	background-color: #D23532;
+	color: white;
+}
+
+table#accounting_adjustments tr.total td{
+	background-color: #666666;
+	color: white;
+}
+
+table#accounting_adjustments td.year {
+	text-align: center;
+}
+
+table#accounting_adjustments {
+	text-align: right;
+}
