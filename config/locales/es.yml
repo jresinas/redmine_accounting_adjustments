@@ -14,3 +14,12 @@ es:
     label_overwrite_adjustments: Sobreescribir ajustes contables
     label_ignore_current_year: Ignorar año actual
     button_create_accounting_adjustments: Crear ajustes contables
+    settings:
+      label_accounting_adjustment_tracker: Tipo de petición del ajuste contable
+      label_accounting_adjustment_type_field: Campo de tipo de gasto
+      label_accounting_adjustment_amount_field: Campo de importe
+      label_accounting_adjustment_date_field: Campo de fecha
+      label_accounting_adjustment_amount_local_field: Campo de importe en moneda local
+      label_accounting_adjustment_biller_field: Campo de empresa
+      label_accounting_adjustment_type_value: Tipo de gasto
+      label_accounting_adjustment_biller_value: Empresa

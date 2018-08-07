@@ -1,0 +1,108 @@
+<fieldset>
+	<p>
+		<label><%=l(:"accounting_adjustments.settings.label_accounting_adjustment_tracker")%></label>
+		<%= select_tag 'settings[tracker]',
+          ('<option></option>' +
+            options_from_collection_for_select(Tracker.all, :id, :name, @settings['tracker'])).html_safe %>
+	</p>
+	<p>
+		<label><%=l(:"accounting_adjustments.settings.label_accounting_adjustment_type_field")%></label>
+    	<%
+	       if Setting.plugin_redmine_accounting_adjustments['tracker'].present? 
+	         options = ('<option></option>'+options_from_collection_for_select(Tracker.find(Setting.plugin_redmine_accounting_adjustments['tracker']).custom_fields.where(field_format: 'list'), :id, :name, @settings['type_field'].to_i)).html_safe
+	       else
+	         options = ('<option></option>').html_safe
+	       end
+	    %>
+		<%= select_tag 'settings[type_field]', options %>
+	</p>
+    <p>
+		<label><%=l(:"accounting_adjustments.settings.label_accounting_adjustment_amount_field")%></label>
+    	<%
+	       if Setting.plugin_redmine_accounting_adjustments['tracker'].present? 
+	         options = ('<option></option>'+options_from_collection_for_select(Tracker.find(Setting.plugin_redmine_accounting_adjustments['tracker']).custom_fields.where("field_format IN (?)", ['int', 'float']), :id, :name, @settings['amount_field'].to_i)).html_safe
+	       else
+	         options = ('<option></option>').html_safe
+	       end
+	    %>
+		<%= select_tag 'settings[amount_field]', options %>
+	</p>
+	<p>
+		<label><%=l(:"accounting_adjustments.settings.label_accounting_adjustment_date_field")%></label>
+    	<%
+	       if Setting.plugin_redmine_accounting_adjustments['tracker'].present? 
+	         options = ('<option></option>'+options_from_collection_for_select(Tracker.find(Setting.plugin_redmine_accounting_adjustments['tracker']).custom_fields.where(field_format: 'date'), :id, :name, @settings['date_field'].to_i)).html_safe
+	       else
+	         options = ('<option></option>').html_safe
+	       end
+	    %>
+		<%= select_tag 'settings[date_field]', options %>
+	</p>
+	<p>
+		<label><%=l(:"accounting_adjustments.settings.label_accounting_adjustment_amount_local_field")%></label>
+    	<%
+	       if Setting.plugin_redmine_accounting_adjustments['tracker'].present? 
+	         options = ('<option></option>'+options_from_collection_for_select(Tracker.find(Setting.plugin_redmine_accounting_adjustments['tracker']).custom_fields.where("field_format IN (?)", ['int', 'float']), :id, :name, @settings['amount_local_field'].to_i)).html_safe
+	       else
+	         options = ('<option></option>').html_safe
+	       end
+	    %>
+		<%= select_tag 'settings[amount_local_field]', options %>
+	</p>
+	<p>
+		<label><%=l(:"accounting_adjustments.settings.label_accounting_adjustment_biller_field")%></label>
+    	<%
+	       if Setting.plugin_redmine_accounting_adjustments['tracker'].present? 
+	         options = ('<option></option>'+options_from_collection_for_select(Tracker.find(Setting.plugin_redmine_accounting_adjustments['tracker']).custom_fields.where(field_format: 'list'), :id, :name, @settings['biller_field'].to_i)).html_safe
+	       else
+	         options = ('<option></option>').html_safe
+	       end
+	    %>
+		<%= select_tag 'settings[biller_field]', options %>
+	</p>
+
+	<p>
+		<label><%=l(:"accounting_adjustments.settings.label_accounting_adjustment_type_value")%></label>
+    	<%
+	       if Setting.plugin_redmine_accounting_adjustments['type_field'].present? 
+	         options = ('<option></option>'+options_for_select(CustomField.find(Setting.plugin_redmine_accounting_adjustments['type_field']).possible_values, @settings['type_value'])).html_safe
+	       else
+	         options = ('<option></option>').html_safe
+	       end
+	    %>
+		<%= select_tag 'settings[type_value]', options %>
+	</p>
+
+	<p>
+		<label><%=l(:"accounting_adjustments.settings.label_accounting_adjustment_biller_value")%></label>
+    	<%
+	       if Setting.plugin_redmine_accounting_adjustments['biller_field'].present? 
+	         options = ('<option></option>'+options_for_select(CustomField.find(Setting.plugin_redmine_accounting_adjustments['biller_field']).possible_values, @settings['biller_value'])).html_safe
+	       else
+	         options = ('<option></option>').html_safe
+	       end
+	    %>
+		<%= select_tag 'settings[biller_value]', options %>
+	</p>
+</fieldset>
+
+<script>
+$(document).ready(function(){
+  $('#settings_tracker').change(function(){
+  	console.log("hola");
+	$('#settings_type_field').load('/settings/show_tracker_custom_fields_type', {tracker: $('#settings_tracker').val(), type: ['list']});
+	$('#settings_amount_field').load('/settings/show_tracker_custom_fields_type', {tracker: $('#settings_tracker').val(), type: ['int', 'float']});
+	$('#settings_date_field').load('/settings/show_tracker_custom_fields_type', {tracker: $('#settings_tracker').val(), type: ['date']});
+	$('#settings_amount_local_field').load('/settings/show_tracker_custom_fields_type', {tracker: $('#settings_tracker').val(), type: ['int', 'float']});
+	$('#settings_biller_field').load('/settings/show_tracker_custom_fields_type', {tracker: $('#settings_tracker').val(), type: ['list']});
+  });
+
+  $('#settings_type_field').change(function(){
+	$('#settings_type_value').load('/settings/show_custom_field_possible_values', {custom_field: $('#settings_type_field').val()});
+  });
+
+  $('#settings_biller_field').change(function(){
+	$('#settings_biller_value').load('/settings/show_custom_field_possible_values', {custom_field: $('#settings_biller_field').val()});
+  });
+});
+</script>

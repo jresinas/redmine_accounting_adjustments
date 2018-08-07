@@ -1,4 +1,5 @@
 require 'accounting_adjustments/project_patch'
+require 'accounting_adjustments/settings_controller_patch'
 
 Redmine::Plugin.register :redmine_accounting_adjustments do
   name 'Automatic Accounting Adjustment Plugin'

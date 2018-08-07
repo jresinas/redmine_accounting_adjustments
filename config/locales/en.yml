@@ -14,3 +14,12 @@ en:
     label_overwrite_adjustments: Overwrite accounting adjustments
     label_ignore_current_year: Ignore current year
     button_create_accounting_adjustments: Create accounting adjustments
+    settings:
+      label_accounting_adjustment_tracker: Accounting adjustment tracker
+      label_accounting_adjustment_type_field: Spending type field
+      label_accounting_adjustment_amount_field: Amount field
+      label_accounting_adjustment_date_field: Date field
+      label_accounting_adjustment_amount_local_field: Local amount field
+      label_accounting_adjustment_biller_field: Biller field
+      label_accounting_adjustment_type_value: Spending type
+      label_accounting_adjustment_biller_value: Biller
