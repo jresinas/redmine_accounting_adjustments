@@ -13,12 +13,10 @@ module AccountingAdjustments
 
         module InstanceMethods
         	def create_start_accounting_adjustment(year, amount)
-                binding.pry
         		create_accounting_adjustment("01-01-#{year}".to_date, amount) if amount.to_f <= -0.01 or amount.to_f >= 0.01
         	end
 
         	def create_end_accounting_adjustment(year, amount)
-                binding.pry
         		create_accounting_adjustment("31-12-#{year}".to_date, amount) if amount.to_f <= -0.01 or amount.to_f >= 0.01
         	end
 
