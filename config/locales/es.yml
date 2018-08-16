@@ -23,3 +23,4 @@ es:
       label_accounting_adjustment_biller_field: Campo de empresa
       label_accounting_adjustment_type_value: Tipo de gasto
       label_accounting_adjustment_biller_value: Empresa
+      label_accounting_adjustment_subject: Asunto

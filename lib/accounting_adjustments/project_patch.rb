@@ -28,13 +28,13 @@ module AccountingAdjustments
             def get_accounting_adjustments(start_date = nil, end_date = nil)
                 if accounting_adjustment_enabled
                     if start_date.present? and end_date.present?
-                        issues.joins("LEFT JOIN custom_values AS amount ON amount.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['amount_field']} AND amount.customized_id = issues.id LEFT JOIN custom_values AS type ON type.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['type_field']} AND type.customized_id = issues.id LEFT JOIN custom_values AS date ON date.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['date_field']} AND date.customized_id = issues.id").where("tracker_id = ? AND type.value = ? AND ((MONTH(date.value) = 12 AND DAY(date.value) = 31) OR (MONTH(date.value) = 1 AND DAY(date.value) = 1)) AND YEAR(date.value) BETWEEN ? AND ?", Setting.plugin_redmine_accounting_adjustments['tracker'], Setting.plugin_redmine_accounting_adjustments['type_value'], start_date.year, end_date.year) #.select("amount.value AS amount")
+                        issues.joins("LEFT JOIN custom_values AS amount ON amount.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['amount_field']} AND amount.customized_id = issues.id LEFT JOIN custom_values AS type ON type.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['type_field']} AND type.customized_id = issues.id LEFT JOIN custom_values AS date ON date.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['date_field']} AND date.customized_id = issues.id").where("tracker_id = ? AND type.value = ? AND ((MONTH(date.value) = 12 AND DAY(date.value) = 31) OR (MONTH(date.value) = 1 AND DAY(date.value) = 1)) AND YEAR(date.value) BETWEEN ? AND ? AND issues.subject LIKE ?", Setting.plugin_redmine_accounting_adjustments['tracker'], Setting.plugin_redmine_accounting_adjustments['type_value'], start_date.year, end_date.year, "#{Setting.plugin_redmine_accounting_adjustments['subject']}%") #.select("amount.value AS amount")
                     elsif start_date.present?
-                        issues.joins("LEFT JOIN custom_values AS amount ON amount.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['amount_field']} AND amount.customized_id = issues.id LEFT JOIN custom_values AS type ON type.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['type_field']} AND type.customized_id = issues.id LEFT JOIN custom_values AS date ON date.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['date_field']} AND date.customized_id = issues.id").where("tracker_id = ? AND type.value = ? AND ((MONTH(date.value) = 12 AND DAY(date.value) = 31) OR (MONTH(date.value) = 1 AND DAY(date.value) = 1)) AND YEAR(date.value) >= ?", Setting.plugin_redmine_accounting_adjustments['tracker'], Setting.plugin_redmine_accounting_adjustments['type_value'], start_date.year) #.select("amount.value AS amount")
+                        issues.joins("LEFT JOIN custom_values AS amount ON amount.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['amount_field']} AND amount.customized_id = issues.id LEFT JOIN custom_values AS type ON type.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['type_field']} AND type.customized_id = issues.id LEFT JOIN custom_values AS date ON date.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['date_field']} AND date.customized_id = issues.id").where("tracker_id = ? AND type.value = ? AND ((MONTH(date.value) = 12 AND DAY(date.value) = 31) OR (MONTH(date.value) = 1 AND DAY(date.value) = 1)) AND YEAR(date.value) >= ? AND issues.subject LIKE ?", Setting.plugin_redmine_accounting_adjustments['tracker'], Setting.plugin_redmine_accounting_adjustments['type_value'], start_date.year, "#{Setting.plugin_redmine_accounting_adjustments['subject']}%") #.select("amount.value AS amount")
                     elsif end_date.present?
-                        issues.joins("LEFT JOIN custom_values AS amount ON amount.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['amount_field']} AND amount.customized_id = issues.id LEFT JOIN custom_values AS type ON type.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['type_field']} AND type.customized_id = issues.id LEFT JOIN custom_values AS date ON date.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['date_field']} AND date.customized_id = issues.id").where("tracker_id = ? AND type.value = ? AND ((MONTH(date.value) = 12 AND DAY(date.value) = 31) OR (MONTH(date.value) = 1 AND DAY(date.value) = 1)) AND YEAR(date.value) <= ?", Setting.plugin_redmine_accounting_adjustments['tracker'], Setting.plugin_redmine_accounting_adjustments['type_value'], end_date.year) #.select("amount.value AS amount")
+                        issues.joins("LEFT JOIN custom_values AS amount ON amount.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['amount_field']} AND amount.customized_id = issues.id LEFT JOIN custom_values AS type ON type.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['type_field']} AND type.customized_id = issues.id LEFT JOIN custom_values AS date ON date.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['date_field']} AND date.customized_id = issues.id").where("tracker_id = ? AND type.value = ? AND ((MONTH(date.value) = 12 AND DAY(date.value) = 31) OR (MONTH(date.value) = 1 AND DAY(date.value) = 1)) AND YEAR(date.value) <= ? AND issues.subject LIKE ?", Setting.plugin_redmine_accounting_adjustments['tracker'], Setting.plugin_redmine_accounting_adjustments['type_value'], end_date.year, "#{Setting.plugin_redmine_accounting_adjustments['subject']}%") #.select("amount.value AS amount")
                     else
-                        issues.joins("LEFT JOIN custom_values AS amount ON amount.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['amount_field']} AND amount.customized_id = issues.id LEFT JOIN custom_values AS type ON type.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['type_field']} AND type.customized_id = issues.id LEFT JOIN custom_values AS date ON date.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['date_field']} AND date.customized_id = issues.id").where("tracker_id = ? AND type.value = ? AND ((MONTH(date.value) = 12 AND DAY(date.value) = 31) OR (MONTH(date.value) = 1 AND DAY(date.value) = 1))", Setting.plugin_redmine_accounting_adjustments['tracker'], Setting.plugin_redmine_accounting_adjustments['type_value']) #.select("amount.value AS amount")
+                        issues.joins("LEFT JOIN custom_values AS amount ON amount.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['amount_field']} AND amount.customized_id = issues.id LEFT JOIN custom_values AS type ON type.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['type_field']} AND type.customized_id = issues.id LEFT JOIN custom_values AS date ON date.custom_field_id = #{Setting.plugin_redmine_accounting_adjustments['date_field']} AND date.customized_id = issues.id").where("tracker_id = ? AND type.value = ? AND ((MONTH(date.value) = 12 AND DAY(date.value) = 31) OR (MONTH(date.value) = 1 AND DAY(date.value) = 1)) AND issues.subject LIKE ?", Setting.plugin_redmine_accounting_adjustments['tracker'], Setting.plugin_redmine_accounting_adjustments['type_value'], "#{Setting.plugin_redmine_accounting_adjustments['subject']}%") #.select("amount.value AS amount")
                     end
                 else
                     Issue.none
@@ -48,7 +48,7 @@ module AccountingAdjustments
             		project_id: self.id,
             		author_id: User.current.id,
             		tracker_id: Setting.plugin_redmine_accounting_adjustments['tracker'],
-            		subject: "Ajuste Contable #{date}"
+            		subject: Setting.plugin_redmine_accounting_adjustments['subject']+" #{date}"
             		}) do |i|
                         type = CustomValue.new({
                             custom_field_id: Setting.plugin_redmine_accounting_adjustments['type_field'],
@@ -75,17 +75,17 @@ module AccountingAdjustments
                             value: Setting.plugin_redmine_accounting_adjustments['biller_value']
                         })
 
-                        # currency = CustomValue.new({
-                        #     custom_field_id: 263,
-                        #     value: 1
-                        # })
+                        currency = CustomValue.new({
+                            custom_field_id: 263,
+                            value: 1
+                        })
 
                         i.custom_values << type
                         i.custom_values << date
                         i.custom_values << amount
                         i.custom_values << amount_local
                         i.custom_values << enterprise
-                        # i.custom_values << currency
+                        i.custom_values << currency
                     end
                 end
          	end

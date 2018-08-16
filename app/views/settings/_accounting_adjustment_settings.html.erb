@@ -84,6 +84,11 @@
 	    %>
 		<%= select_tag 'settings[biller_value]', options %>
 	</p>
+
+	<p>
+		<label><%=l(:"accounting_adjustments.settings.label_accounting_adjustment_subject")%></label>
+		<%= text_field_tag 'settings[subject]', @settings['subject'] %>
+	</p>
 </fieldset>
 
 <script>

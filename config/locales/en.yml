@@ -23,3 +23,4 @@ en:
       label_accounting_adjustment_biller_field: Biller field
       label_accounting_adjustment_type_value: Spending type
       label_accounting_adjustment_biller_value: Biller
+      label_accounting_adjustment_subject: Subject
