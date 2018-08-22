@@ -24,3 +24,6 @@ en:
       label_accounting_adjustment_type_value: Spending type
       label_accounting_adjustment_biller_value: Biller
       label_accounting_adjustment_subject: Subject
+    text_no_bsc: You need to configure BSC to access
+    text_error_creation: Accounting adjustments couldn't be created
+    text_success_creation: Accounting adjustments have been created

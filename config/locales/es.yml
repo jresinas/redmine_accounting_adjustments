@@ -24,3 +24,6 @@ es:
       label_accounting_adjustment_type_value: Tipo de gasto
       label_accounting_adjustment_biller_value: Empresa
       label_accounting_adjustment_subject: Asunto
+    text_no_bsc: Se necesita configurar el BSC para poder acceder
+    text_error_creation: No han podido crearse los ajustes contables
+    text_success_creation: Se han creado correctamente los ajustes contables
