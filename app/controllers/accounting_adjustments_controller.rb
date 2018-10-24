@@ -9,8 +9,8 @@ class AccountingAdjustmentsController < ApplicationController
 	end
 
 	def show
-		@overwrite_adjustments = begin params['overwrite_adjustments'].present? rescue false end
-		@ignore_current_year = begin params['ignore_current_year'].present? rescue false end
+		@overwrite_adjustments = begin params['overwrite_adjustments'].present? and params['overwrite_adjustments'] == "true" rescue false end
+		@ignore_current_year = begin params['ignore_current_year'].present? and params['ignore_current_year'] == "true" rescue false end
 		@end_date = @project.bsc_end_date
 		@start_date = (@ignore_current_year.present? and @end_date.year > Date.today.year) ? Date.today + 1.year : Date.today
 

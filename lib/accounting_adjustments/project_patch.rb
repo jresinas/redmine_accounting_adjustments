@@ -41,17 +41,17 @@ module AccountingAdjustments
 
                         scheduled_incomes = overwrite_adjustments.present? ? (myear.total_income_scheduled - accounting_adjustments) : myear.total_income_scheduled
                         scheduled_expenses = myear.total_expense_scheduled
-                        scheduled_mc =  overwrite_adjustments.present? ? 100 * ((scheduled_incomes - scheduled_expenses) / scheduled_incomes) : myear.scheduled_margin
-                        theoric_incomes = -((100 * scheduled_expenses) / (total_mc - 100))
-                        theoric_end_adjustment = (year != end_date.year) ? -((100 * myear.total_expense_scheduled) / (total_mc - 100)) - scheduled_incomes : 0.00
-                        theoric_mc = total_mc
+                        scheduled_mc = 100 * ((scheduled_incomes - scheduled_expenses) / scheduled_incomes)
+                        theoric_end_adjustment = ((total_mc * scheduled_incomes) + (100 * scheduled_expenses) - (100 * scheduled_incomes)) / (100 - total_mc) + last_year_adjustment
+                        theoric_incomes = scheduled_incomes + theoric_end_adjustment - last_year_adjustment
+                        theoric_mc = 100 * (theoric_incomes - scheduled_expenses) / theoric_incomes
 
                         data[year] = {
                             :scheduled_incomes => scheduled_incomes.round(2),
                             :scheduled_expenses => scheduled_expenses.round(2),
                             :scheduled_mc => scheduled_mc.round(2),
                             :theoric_incomes => theoric_incomes.round(2),
-                            :theoric_start_adjustment => (-last_year_adjustment.round(2)),
+                            :theoric_start_adjustment => -last_year_adjustment.round(2),
                             :theoric_end_adjustment => theoric_end_adjustment.round(2),
                             :theoric_mc => theoric_mc.round(2)
                         }
@@ -60,7 +60,7 @@ module AccountingAdjustments
                         total_adjustments += last_year_adjustment
                     end
 
-                    data['totals'][:theoric_start_adjustment] = (-total_adjustments.round(2))
+                    data['totals'][:theoric_start_adjustment] = -total_adjustments.round(2)
                     data['totals'][:theoric_end_adjustment] = total_adjustments.round(2)
                 end
 
