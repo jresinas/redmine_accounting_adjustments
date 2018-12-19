@@ -13,6 +13,7 @@ en:
     label_totals: Totals
     label_overwrite_adjustments: Overwrite accounting adjustments
     label_ignore_current_year: Ignore current year
+    label_ignore_compensations: Ignore compensations
     button_create_accounting_adjustments: Create accounting adjustments
     settings:
       label_accounting_adjustment_tracker: Accounting adjustment tracker

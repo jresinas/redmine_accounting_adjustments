@@ -1,5 +1,17 @@
 module AccountingAdjustments
 	module ProjectPatch
+        ARCHIVADOS_PROJECT_ID = 82
+        CF_ESTADO_ID = 120
+        CF_EXPEDIENTE_ID = 26
+        CF_INICO_GARANTIA_ID = 264
+        CF_FIN_GARANTIA_ID = 265
+
+        T_OTHER_INCOMES = 65
+        T_OTHER_EXPENSES = 66
+        T_OTHER_EXPENSES_RRHH = 68
+
+        CF_IMPORTE = 152
+        CF_TIPO_GASTO_RRHH = 282
 		def self.included(base) # :nodoc:
           base.extend(ClassMethods)
           base.send(:include, InstanceMethods)
@@ -12,7 +24,7 @@ module AccountingAdjustments
         end
 
         module InstanceMethods
-            def get_accounting_adjustments_data(start_date, end_date, overwrite_adjustments, ignore_current_year)
+            def get_accounting_adjustments_data(start_date, end_date, overwrite_adjustments, ignore_current_year, ignore_compensations)
                 data = {}
                 total_adjustments = 0.00
                 if start_date.year <= end_date.year
@@ -21,7 +33,11 @@ module AccountingAdjustments
 
                     scheduled_incomes = overwrite_adjustments.present? ? (mt.total_income_scheduled - accounting_adjustments) : mt.total_income_scheduled
                     scheduled_expenses = mt.total_expense_scheduled
+                    include_descendants = (self.bsc_end_date.present? and self.parent_id != ARCHIVADOS_PROJECT_ID)
                     scheduled_mc = overwrite_adjustments.present? ? 100 * ((scheduled_incomes - scheduled_expenses) / scheduled_incomes) : mt.scheduled_margin
+                    projects = [self.id] + (include_descendants.present? ? self.descendants.active.map(&:id) : [])
+                    compensations = Issue.joins("LEFT JOIN custom_values AS type ON type.customized_type = 'Issue' AND type.customized_id = issues.id AND type.custom_field_id = #{CF_TIPO_GASTO_RRHH}").joins("LEFT JOIN custom_values AS amount ON amount.customized_type = 'Issue' AND amount.customized_id = issues.id AND amount.custom_field_id = #{CF_IMPORTE}").where("issues.tracker_id = ? AND issues.project_id IN (?) AND type.value = ?", T_OTHER_EXPENSES_RRHH, projects,'Indemnización').sum('amount.value')
+                    theoric_mc = ignore_compensations.present? ? 100 * ((scheduled_incomes - scheduled_expenses + compensations) / scheduled_incomes) : scheduled_mc
                     total_mc = scheduled_mc
 
                     data['totals'] = {
@@ -31,7 +47,7 @@ module AccountingAdjustments
                         :theoric_incomes => scheduled_incomes.round(2),
                         :theoric_start_adjustment => 0.00,
                         :theoric_end_adjustment => 0.00,
-                        :theoric_mc => scheduled_mc.round(2)
+                        :theoric_mc => theoric_mc.round(2)
                     }
 
                     last_year_adjustment = 0
@@ -44,7 +60,7 @@ module AccountingAdjustments
                         scheduled_mc = 100 * ((scheduled_incomes - scheduled_expenses) / scheduled_incomes)
                         theoric_end_adjustment = ((total_mc * scheduled_incomes) + (100 * scheduled_expenses) - (100 * scheduled_incomes)) / (100 - total_mc) + last_year_adjustment
                         theoric_incomes = scheduled_incomes + theoric_end_adjustment - last_year_adjustment
-                        theoric_mc = 100 * (theoric_incomes - scheduled_expenses) / theoric_incomes
+                        #theoric_mc = 100 * (theoric_incomes - scheduled_expenses) / theoric_incomes
 
                         data[year] = {
                             :scheduled_incomes => scheduled_incomes.round(2),

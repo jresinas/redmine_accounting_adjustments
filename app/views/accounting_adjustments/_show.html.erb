@@ -40,6 +40,9 @@
 			<span>
 				<%= l(:"accounting_adjustments.label_ignore_current_year") %>: <%= check_box_tag('ignore_current_year', 1, @ignore_current_year) %>
 			</span>
+			<span>
+				<%= l(:"accounting_adjustments.label_ignore_compensations") %>: <%= check_box_tag('ignore_compensations', 1, @ignore_compensations) %>
+			</span>
 		</div>
 		<div id="accounting_adjustments_submit">
 			<%= submit_tag l(:"accounting_adjustments.button_create_accounting_adjustments") %>

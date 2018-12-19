@@ -13,6 +13,7 @@ es:
     label_totals: Totales
     label_overwrite_adjustments: Sobreescribir ajustes contables
     label_ignore_current_year: Ignorar año actual
+    label_ignore_compensations: Ignorar indemnizaciones
     button_create_accounting_adjustments: Crear ajustes contables
     settings:
       label_accounting_adjustment_tracker: Tipo de petición del ajuste contable

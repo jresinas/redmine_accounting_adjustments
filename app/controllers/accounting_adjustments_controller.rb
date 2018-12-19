@@ -11,10 +11,11 @@ class AccountingAdjustmentsController < ApplicationController
 	def show
 		@overwrite_adjustments = begin params['overwrite_adjustments'].present? and params['overwrite_adjustments'] == "true" rescue false end
 		@ignore_current_year = begin params['ignore_current_year'].present? and params['ignore_current_year'] == "true" rescue false end
+		@ignore_compensations = begin params['ignore_compensations'].present? and params['ignore_compensations'] == "true" rescue false end
 		@end_date = @project.bsc_end_date
 		@start_date = (@ignore_current_year.present? and @end_date.year > Date.today.year) ? Date.today + 1.year : Date.today
 
-		@data = @project.get_accounting_adjustments_data(@start_date, @end_date, @overwrite_adjustments, @ignore_current_year)
+		@data = @project.get_accounting_adjustments_data(@start_date, @end_date, @overwrite_adjustments, @ignore_current_year, @ignore_compensations)
 
 		if request.xhr?
 			render "_show", :layout => false
@@ -22,7 +23,7 @@ class AccountingAdjustmentsController < ApplicationController
 	end
 
 	def generate
-		result = @project.generate_accounting_adjustments(params[:start_adjustments], params[:end_adjustments], params[:overwrite_adjustments], params[:ignore_current_year])
+		result = @project.generate_accounting_adjustments(params[:start_adjustments], params[:end_adjustments], params[:overwrite_adjustments], params[:ignore_current_year],  params[:ignore_compensations])
 
 		if result.present?
 			flash[:notice] = l(:"accounting_adjustments.text_success_creation")
@@ -30,7 +31,7 @@ class AccountingAdjustmentsController < ApplicationController
 			flash[:error] = l(:"accounting_adjustments.text_error_creation")
 		end
 
-		redirect_to :action => 'index', :overwrite_adjustments => params[:overwrite_adjustments], :ignore_current_year => params[:ignore_current_year]
+		redirect_to :action => 'index', :overwrite_adjustments => params[:overwrite_adjustments], :ignore_current_year => params[:ignore_current_year], :ignore_compensations => params[:ignore_compensations]
 	end
 
 	private
