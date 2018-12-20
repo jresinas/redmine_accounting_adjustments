@@ -83,7 +83,7 @@ module AccountingAdjustments
                 data
             end
 
-            def generate_accounting_adjustments(start_adjustments, end_adjustments, overwrite_adjustments = false, ignore_current_year = false)
+            def generate_accounting_adjustments(start_adjustments, end_adjustments, overwrite_adjustments = false, ignore_current_year = false, ignore_compensations = false)
                 ActiveRecord::Base.transaction do
                     if overwrite_adjustments.present?
                         end_date = self.bsc_end_date
